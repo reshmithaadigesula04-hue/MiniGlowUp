@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini GlowUp — Skincare Corner</title>
+    <style>
+        body {
+            background-color: #fff0f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #4a4a4a;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.4);
+        }
+        h1 {
+            color: #d87093;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #db7093;
+            margin-bottom: 30px;
+        }
+        .section-box {
+            background: #fff5f8;
+            border-left: 5px solid #ffb6c1;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        h3 {
+            color: #b03060;
+            margin-top: 0;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            padding: 8px 0;
+            font-size: 16px;
+        }
+        .btn {
+            background-color: #ffb6c1;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background-color: #ff69b4;
+        }
+        .delete-btn {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 3px 8px;
+            font-size: 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+        .product-card {
+            background: #fff;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #ffe4e1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> Mini GlowUp </h1>
+        <p class="subtitle">Your Personal Daily Skincare Corner</p>
+
+        <!-- Morning Routine -->
+        <div class="section-box">
+            <h3>Morning Skincare Routine</h3>
+            <ul>
+                <li><input type="checkbox"> Gentle Cleanser</li>
+                <li><input type="checkbox"> Daily Moisturizer</li>
+                <li><input type="checkbox"> SPF 50 Sunscreen</li>
+            </ul>
+        </div>
+
+        <!-- Night Routine -->
+        <div class="section-box">
+            <h3>Night Skincare Routine</h3>
+            <ul>
+                <li><input type="checkbox"> Double Cleanser</li>
+                <li><input type="checkbox"> Night Cream / Moisturizer</li>
+            </ul>
+        </div>
+
+        <!-- My Skincare Products -->
+        <div class="section-box">
+            <h3> My Skincare Products</h3>
+            <a href="{% url 'product_create' %}" class="btn"> Add New Product</a>
+            <br><br>
+            {% for product in products %}
+                <div class="product-card">
+                    <div>
+                        <strong>{{ product.name }}</strong> (<em>{{ product.category }}</em>)
+                        <br><small>{{ product.description }}</small>
+                    </div>
+                    <form action="{% url 'product_delete' product.pk %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
+                </div>
+            {% empty %}
+                <p>No products added yet. Add your favorite skincare items!</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
